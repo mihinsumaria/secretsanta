@@ -4,14 +4,16 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from validate_email import validate_email
 
-def sendemail(toaddr,body): #Sends Emails	
+def sendemail(toaddr,body):
+	"""
+	Sends emails to participants using the host's credentials
+	"""	
 	fromaddr = "" #Host's Email ID, host is someone who is not participating
 	msg = MIMEMultipart()
 	msg['From'] = fromaddr
 	msg['To'] = toaddr
 	msg['Subject'] = "Secret Santa Pairing" #Subject of the email
 	msg.attach(MIMEText(body, 'plain'))
-	 
 	server = smtplib.SMTP('smtp.gmail.com', 587) #SMTP Server for GMail
 	server.starttls()
 	server.login("", "") #Enter host's login credentials here - Email address and password
@@ -19,7 +21,10 @@ def sendemail(toaddr,body): #Sends Emails
 	server.sendmail(fromaddr, toaddr, text)
 	server.quit()
 
-def pairing(givers): #Pairs the gifters and the giftees
+def pairing(givers):
+	"""
+	Performs giftee-gifters pairing for all the participants
+	"""
 	receivers=givers[:]
 	pairs=[]
 	for i in givers:
@@ -31,7 +36,10 @@ def pairing(givers): #Pairs the gifters and the giftees
 		pairs.append((i,receiver))
 	return pairs
 
-def emailiterate(pairs): #Iterates the sending of email over multiple pairs
+def emailiterate(pairs):
+	"""
+	Iterates the sending of email over multiple pairs
+	"""
 	for i in pairs:
 		body="Happy Holidays! We have decided to do a Secret Santa, and you are a participant."
 		body+=" Find out whose santa you are below.\n"
@@ -43,6 +51,9 @@ def emailiterate(pairs): #Iterates the sending of email over multiple pairs
 	return
 
 def getparticipants(no_of_participants):
+	"""
+	Gets names and emails of the participants from the user
+	"""
 	givers=[]
 	i=0
 	while i<no_of_participants:
